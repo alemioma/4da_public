@@ -1,0 +1,43 @@
+html, body{
+    margin: 0;
+    padding: 0;
+
+}
+
+#root{
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+
+#console{
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin: auto;
+}
+
+#videobox{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#remoteVideo{
+    width: 200px;
+    height: 200px;
+    background-color: gray;
+}
+
+#localVideo{
+    width: 190px;
+    height: 100px;
+    background-color: gray;
+}
+
+#message{
+    height: 25px;
+    color: white;
+    font-size: 20px;
+    background-color: gray;
+}
