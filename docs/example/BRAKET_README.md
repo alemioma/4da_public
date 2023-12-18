@@ -15,6 +15,12 @@ The `Bra` component is responsible for network communication. It listens to even
 ### Ket
 The `Ket` component manages user interaction and UI updates. It mirrors the method structure of `Bra`, with `sendXXX` methods being replaced by `updateXXX`.
 
+### Glue
+The `glue` module acts as an intermediary between `Bra` and `Ket`, handling data transformation and delivery. It consists of two main function classes:
+- Klue. Functions that transform data from `Ket` and deliver it to `Bra`. These functions format or aggregate UI data for network transmission.
+- Blue. Functions that transform data from `Bra` and deliver it to `Ket`. They parse or enrich network data for UI updates.
+
+
 ### Braket
 The `Braket` class integrates `Bra` and `Ket`, facilitating full-stack application development. The implementation typically resides in a module named `braket.js`.
 
@@ -22,6 +28,10 @@ The `Braket` class integrates `Bra` and `Ket`, facilitating full-stack applicati
 ```javascript
 import Bra from './bra.js';
 import Ket from './ket.js';
+import {Klue, Blue} from './glue.js';
+
+let klue = new Klue();
+let blue = new Blue();
 
 let bra = new class extends Bra {
     constructor() {
@@ -29,7 +39,7 @@ let bra = new class extends Bra {
     }
 
     onHello(data) {
-        ket.updateHello(data);
+        ket.updateHello( blue.decrypt(data) );
     }
 };
 
@@ -39,7 +49,7 @@ let ket = new class extends Ket {
     }
 
     onHello(data) {
-        bra.sendHello(data);
+        bra.sendHello( klue.encrypt(data) );
     }
 };
 
@@ -77,3 +87,24 @@ export default class Ket {
     }
 }
 
+
+### Example: glue.js
+```javascript
+
+export class Klue{
+	constructor(){
+	}
+
+	encrypt(data){
+		return '*' + data
+	}
+}
+
+export class Blue{
+	constructor(){
+	}
+
+	decrypt(data){
+		return data.slice(1)
+	}
+}
